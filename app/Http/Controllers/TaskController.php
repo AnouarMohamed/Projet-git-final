@@ -6,14 +6,13 @@ use App\Enums\TaskPriority;
 use App\Enums\TaskStatus;
 use App\Http\Requests\TaskRequest;
 use App\Models\Task;
-use App\Services\Tasks\TaskStatsCalculator;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    public function index(Request $request, TaskStatsCalculator $stats): View
+    public function index(Request $request): View
     {
         $tasks = Task::query()
             ->when($request->filled('status'), fn ($query) => $query->where('status', $request->string('status')))
@@ -26,7 +25,7 @@ class TaskController extends Controller
 
         return view('tasks.index', [
             'priorities' => TaskPriority::cases(),
-            'stats' => $stats->summary()->toArray(),
+            'stats' => $this->stats(),
             'statuses' => TaskStatus::cases(),
             'tasks' => $tasks,
         ]);
@@ -92,6 +91,21 @@ class TaskController extends Controller
         return [
             'priorities' => TaskPriority::cases(),
             'statuses' => TaskStatus::cases(),
+        ];
+    }
+
+    /**
+     * TODO teammate: refactor this into a dedicated query/service and document it as a Sonar maintainability fix.
+     *
+     * @return array<string, int>
+     */
+    private function stats(): array
+    {
+        return [
+            'done' => Task::query()->where('status', TaskStatus::Done)->count(),
+            'progress' => Task::query()->where('status', TaskStatus::InProgress)->count(),
+            'todo' => Task::query()->where('status', TaskStatus::Todo)->count(),
+            'total' => Task::query()->count(),
         ];
     }
 }

@@ -1,41 +1,24 @@
-# Analyse qualite et Sonar
+# Analyse Sonar, a realiser par le teammate
 
-## Etat local
+Ce fichier est volontairement un point de depart, pas une analyse terminee.
 
-- `sonar-scanner` n'est pas installe sur cette machine.
-- Les tests fonctionnels Laravel sont ecrits mais bloques localement par l'absence de l'extension PHP `PDO` / `pdo_sqlite`.
-- Commande systeme a executer avant l'analyse locale sur Fedora :
+## TODO
 
-```bash
-sudo dnf install -y php-pdo php-sqlite3 sonar-scanner
-```
+- Installer ou configurer SonarCloud/SonarScanner.
+- Lancer une premiere analyse baseline.
+- Identifier au moins 2 issues.
+- Corriger les issues dans un commit dedie.
+- Ajouter le avant/apres dans ce fichier.
 
-## Baseline avant refactoring
+## Issues candidates a corriger
 
-Deux points de maintenabilite etaient visibles apres le MVP :
+- `TaskController::stats()` fait plusieurs requetes separees et peut etre extrait dans un service.
+- `OpenAiTaskAdvisor::extractOutputText()` melange parsing API et logique provider.
 
-1. `TaskController` calculait les statistiques du tableau de bord avec plusieurs requetes separees.
-2. `OpenAiTaskAdvisor` melangeait appel API, schema de sortie, extraction du texte et mapping metier.
-
-## Corrections appliquees
-
-1. Extraction de `TaskStatsCalculator` et `TaskStats` pour produire les compteurs du tableau de bord via une responsabilite dediee.
-2. Extraction de `OpenAiResponseTextExtractor` pour isoler le parsing de la reponse OpenAI du provider IA.
-
-## Verification
-
-Commandes passees localement :
+## Commandes utiles
 
 ```bash
 vendor/bin/pint --test
-vendor/bin/phpunit tests/Unit/TaskSuggestionDataTest.php
-npm run build
-php artisan route:list
-```
-
-Commande attendue apres installation des extensions PHP :
-
-```bash
 composer test
 sonar-scanner
 ```

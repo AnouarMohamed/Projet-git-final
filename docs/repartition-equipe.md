@@ -1,49 +1,39 @@
 # Repartition de l'equipe
 
-## Anouar, charge principale
+## Anouar, partie lourde deja realisee
 
-Responsabilites lourdes :
+- Initialisation Laravel.
+- CRUD taches.
+- Interface Blade.
+- Integration IA.
+- Strategy Pattern pour les providers IA.
+- Workflow GitHub avec branches et PR.
+- Hotfix de validation de date limite.
 
-- Initialiser le repository et le workflow GitHub.
-- Gerer les branches, PR, merges, hotfix et tag final.
-- Bootstrap Laravel et configuration SQLite.
-- Developper le CRUD taches.
-- Integrer l'assistant IA.
-- Expliquer le Strategy Pattern.
-- Preparer la demo MVP.
-
-Commits attendus :
+Commits principaux :
 
 - `init laravel project`
 - `add task crud`
 - `add ai task suggestion flow`
 - `wire strategy provider for ai advisor`
-- `prepare release tag v1.0`
+- `fix due date validation`
 
-## Teammate, qualite et business
+## Teammate, partie restante
 
-Responsabilites :
+Le teammate doit faire des commits reels sur :
 
-- Ajouter les tests.
-- Documenter le baseline Sonar.
-- Corriger au moins deux problemes de maintenabilite.
-- Rediger le README et l'offre commerciale.
-- Aider au support de presentation.
+- Tests fonctionnels.
+- Analyse Sonar baseline.
+- Correction d'au moins 2 issues Sonar.
+- README final professionnel.
+- Offre commerciale complete.
+- Presentation finale.
+- Release finale et tag apres validation commune.
 
-Commits attendus :
+Commits recommandes :
 
 - `add feature tests`
 - `fix sonar maintainability issues`
 - `add sonar baseline notes`
 - `write readme and commercial offer`
-
-## Points a maitriser individuellement
-
-Chaque membre doit pouvoir expliquer :
-
-- Sa contribution.
-- Les commandes Git utilisees.
-- Le fonctionnement du CRUD.
-- Le Strategy Pattern.
-- Les corrections qualite.
-- L'architecture generale.
+- `prepare release tag v1.0`

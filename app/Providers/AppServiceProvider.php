@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Services\TaskAdvisor\DemoTaskAdvisor;
-use App\Services\TaskAdvisor\OpenAiResponseTextExtractor;
 use App\Services\TaskAdvisor\OpenAiTaskAdvisor;
 use App\Services\TaskAdvisor\TaskAdvisorInterface;
 use Illuminate\Contracts\Foundation\Application;
@@ -22,7 +21,6 @@ class AppServiceProvider extends ServiceProvider
                     apiKey: (string) config('services.openai.key', ''),
                     model: (string) config('services.openai.model', 'gpt-5.4-mini'),
                     baseUrl: (string) config('services.openai.base_url', 'https://api.openai.com/v1'),
-                    responseTextExtractor: $app->make(OpenAiResponseTextExtractor::class),
                 );
             }
 
