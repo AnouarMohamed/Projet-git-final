@@ -99,11 +99,4 @@ sonar-scanner
 ```
 
 Les tests sont fournis. La partie Sonar reste le principal travail restant pour le teammate : baseline, 2 corrections, avant/apres et captures.
-
-## Repartition
-
-Anouar a pris environ 75% : bootstrap Laravel, CRUD, IA, Strategy Pattern, GitHub workflow, hotfix, tests et base documentaire.
-
-Le teammate garde environ 25%, plus cible et visible : Sonar, captures, finition des preuves et release finale.
-
 Voir [docs/teammate-todo.md](docs/teammate-todo.md).
