@@ -21,7 +21,7 @@ class TaskRequest extends FormRequest
     {
         return [
             'description' => ['nullable', 'string', 'max:2000'],
-            'due_date' => ['nullable', 'date'],
+            'due_date' => ['nullable', 'date', 'after_or_equal:today'],
             'priority' => ['required', Rule::enum(TaskPriority::class)],
             'status' => ['required', Rule::enum(TaskStatus::class)],
             'title' => ['required', 'string', 'max:120'],
@@ -35,6 +35,7 @@ class TaskRequest extends FormRequest
     {
         return [
             'due_date.date' => 'La date limite doit etre une date valide.',
+            'due_date.after_or_equal' => 'La date limite ne peut pas etre dans le passe.',
             'priority.required' => 'La priorite est obligatoire.',
             'status.required' => 'Le statut est obligatoire.',
             'title.max' => 'Le titre ne doit pas depasser 120 caracteres.',
