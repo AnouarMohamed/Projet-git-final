@@ -6,7 +6,7 @@ use App\Enums\TaskPriority;
 use App\Enums\TaskStatus;
 use App\Models\Task;
 
-class DemoTaskAdvisor
+class DemoTaskAdvisor implements TaskAdvisorInterface
 {
     public function suggest(Task $task): TaskSuggestionData
     {

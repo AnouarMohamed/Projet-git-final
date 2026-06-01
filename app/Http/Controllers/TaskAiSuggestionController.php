@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
-use App\Services\TaskAdvisor\DemoTaskAdvisor;
+use App\Services\TaskAdvisor\TaskAdvisorInterface;
 use Illuminate\Http\RedirectResponse;
 
 class TaskAiSuggestionController extends Controller
 {
-    public function store(Task $task, DemoTaskAdvisor $advisor): RedirectResponse
+    public function store(Task $task, TaskAdvisorInterface $advisor): RedirectResponse
     {
         $suggestion = $advisor->suggest($task);
 
