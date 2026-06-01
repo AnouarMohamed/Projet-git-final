@@ -1,31 +1,36 @@
 # TaskPilot IA
 
-MVP Laravel de gestion de taches avec assistant IA.
+TaskPilot IA est un MVP Laravel pour gerer les taches d'une petite equipe et obtenir une aide IA sur la priorisation. L'application permet de creer, modifier, filtrer et supprimer des taches, puis de generer une suggestion IA sauvegardee avec resume, priorite conseillee, sous-taches, risques et estimation d'effort.
 
-## Etat actuel
+## Fonctionnalites
 
-La partie lourde est en place :
+- CRUD complet des taches : titre, description, statut, priorite, date limite.
+- Tableau de bord avec filtres par statut et priorite.
+- Detection visuelle des taches en retard.
+- Assistant IA avec deux providers :
+  - `demo` pour une soutenance fiable sans cle API.
+  - `openai` pour appeler l'API OpenAI Responses si une cle est disponible.
+- Strategy Pattern pour separer les providers IA du controller.
+- Hotfix applique : une date limite passee est refusee.
 
-- Bootstrap Laravel.
-- CRUD des taches.
-- Interface Blade.
-- Integration IA avec Strategy Pattern :
-  - `TaskAdvisorInterface`
-  - `DemoTaskAdvisor`
-  - `OpenAiTaskAdvisor`
-- Hotfix de validation : une date limite passee est refusee.
-- Workflow GitHub avec branches et PR.
+## Architecture
 
-La partie teammate reste volontairement a finaliser :
+```mermaid
+flowchart LR
+    User[Utilisateur] --> Blade[Interface Blade]
+    Blade --> TaskController[TaskController]
+    TaskController --> Task[Task model]
+    Blade --> AiController[TaskAiSuggestionController]
+    AiController --> Strategy[TaskAdvisorInterface]
+    Strategy --> Demo[DemoTaskAdvisor]
+    Strategy --> OpenAI[OpenAiTaskAdvisor]
+    OpenAI --> API[OpenAI Responses API]
+    Task --> DB[(SQLite)]
+    AiController --> Suggestion[TaskAiSuggestion]
+    Suggestion --> DB
+```
 
-- Tests fonctionnels.
-- Analyse Sonar et correction de 2 issues.
-- README professionnel final.
-- Offre commerciale finale.
-- Presentation finale.
-- Release/tag final apres validation commune.
-
-## Installation rapide
+## Installation
 
 Prerequis :
 
@@ -52,15 +57,17 @@ npm run build
 php artisan serve
 ```
 
-## IA
+Application locale : `http://127.0.0.1:8000`
 
-Demo fiable :
+## Configuration IA
+
+Mode recommande pour la demo :
 
 ```env
 AI_PROVIDER=demo
 ```
 
-OpenAI optionnel :
+Mode OpenAI optionnel :
 
 ```env
 AI_PROVIDER=openai
@@ -69,6 +76,34 @@ OPENAI_MODEL=gpt-5.4-mini
 OPENAI_BASE_URL=https://api.openai.com/v1
 ```
 
-## Handoff teammate
+## Workflow Git
+
+Le projet contient deja :
+
+- Branches feature.
+- Pull Requests mergees.
+- Branche hotfix.
+- Commits identifiables pour la partie MVP et IA.
+
+Le teammate peut faire ses propres commits sur Sonar, les preuves avant/apres et la finalisation de release.
+
+## Qualite
+
+Commandes utiles :
+
+```bash
+vendor/bin/pint --test
+composer test
+npm run build
+sonar-scanner
+```
+
+Les tests sont fournis. La partie Sonar reste le principal travail restant pour le teammate : baseline, 2 corrections, avant/apres et captures.
+
+## Repartition
+
+Anouar a pris environ 75% : bootstrap Laravel, CRUD, IA, Strategy Pattern, GitHub workflow, hotfix, tests et base documentaire.
+
+Le teammate garde environ 25%, plus cible et visible : Sonar, captures, finition des preuves et release finale.
 
 Voir [docs/teammate-todo.md](docs/teammate-todo.md).
