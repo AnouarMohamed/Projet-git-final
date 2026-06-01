@@ -47,7 +47,12 @@ class TaskController extends Controller
 
     public function show(Task $task): View
     {
+        $task->load([
+            'aiSuggestions' => fn ($query) => $query->latest(),
+        ]);
+
         return view('tasks.show', [
+            'latestSuggestion' => $task->aiSuggestions->first(),
             'task' => $task,
         ]);
     }

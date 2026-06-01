@@ -23,10 +23,14 @@
     </section>
 
     <div class="grid gap-6 lg:grid-cols-[1fr_320px]">
-        <section class="panel">
-            <h2 class="section-title">Description</h2>
-            <p class="mt-4 whitespace-pre-line text-sm leading-7 text-stone-700">{{ $task->description ?: 'Aucune description fournie.' }}</p>
-        </section>
+        <div class="space-y-6">
+            <section class="panel">
+                <h2 class="section-title">Description</h2>
+                <p class="mt-4 whitespace-pre-line text-sm leading-7 text-stone-700">{{ $task->description ?: 'Aucune description fournie.' }}</p>
+            </section>
+
+            @include('tasks._suggestion')
+        </div>
 
         <aside class="panel">
             <h2 class="section-title">Informations</h2>
