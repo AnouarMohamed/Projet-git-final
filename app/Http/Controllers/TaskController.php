@@ -6,13 +6,14 @@ use App\Enums\TaskPriority;
 use App\Enums\TaskStatus;
 use App\Http\Requests\TaskRequest;
 use App\Models\Task;
+use App\Services\Tasks\TaskStatsCalculator;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    public function index(Request $request): View
+    public function index(Request $request, TaskStatsCalculator $stats): View
     {
         $tasks = Task::query()
             ->when($request->filled('status'), fn ($query) => $query->where('status', $request->string('status')))
@@ -25,7 +26,7 @@ class TaskController extends Controller
 
         return view('tasks.index', [
             'priorities' => TaskPriority::cases(),
-            'stats' => $this->stats(),
+            'stats' => $stats->summary()->toArray(),
             'statuses' => TaskStatus::cases(),
             'tasks' => $tasks,
         ]);
@@ -91,19 +92,6 @@ class TaskController extends Controller
         return [
             'priorities' => TaskPriority::cases(),
             'statuses' => TaskStatus::cases(),
-        ];
-    }
-
-    /**
-     * @return array<string, int>
-     */
-    private function stats(): array
-    {
-        return [
-            'total' => Task::query()->count(),
-            'todo' => Task::query()->where('status', TaskStatus::Todo)->count(),
-            'progress' => Task::query()->where('status', TaskStatus::InProgress)->count(),
-            'done' => Task::query()->where('status', TaskStatus::Done)->count(),
         ];
     }
 }

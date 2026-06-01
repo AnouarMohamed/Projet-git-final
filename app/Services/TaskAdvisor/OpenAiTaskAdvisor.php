@@ -12,6 +12,7 @@ class OpenAiTaskAdvisor implements TaskAdvisorInterface
         private readonly string $apiKey,
         private readonly string $model,
         private readonly string $baseUrl,
+        private readonly OpenAiResponseTextExtractor $responseTextExtractor,
     ) {}
 
     public function suggest(Task $task): TaskSuggestionData
@@ -36,7 +37,7 @@ class OpenAiTaskAdvisor implements TaskAdvisorInterface
             ])
             ->throw();
 
-        $content = $this->extractOutputText($response->json());
+        $content = $this->responseTextExtractor->extract($response->json());
         $payload = json_decode($content, true);
 
         if (! is_array($payload)) {
@@ -112,25 +113,5 @@ class OpenAiTaskAdvisor implements TaskAdvisorInterface
             'required' => ['summary', 'suggested_priority', 'estimated_minutes', 'subtasks', 'risks'],
             'type' => 'object',
         ];
-    }
-
-    /**
-     * @param  array<string, mixed>  $payload
-     */
-    private function extractOutputText(array $payload): string
-    {
-        if (is_string($payload['output_text'] ?? null)) {
-            return $payload['output_text'];
-        }
-
-        foreach (($payload['output'] ?? []) as $output) {
-            foreach (($output['content'] ?? []) as $content) {
-                if (is_string($content['text'] ?? null)) {
-                    return $content['text'];
-                }
-            }
-        }
-
-        throw new RuntimeException('La reponse IA ne contient pas de texte.');
     }
 }
