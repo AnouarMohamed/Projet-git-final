@@ -82,6 +82,21 @@ class TaskManagementTest extends TestCase
             ->assertSessionHasErrors(['description', 'due_date', 'priority', 'status', 'title']);
     }
 
+    public function test_due_date_cannot_be_in_the_past(): void
+    {
+        $response = $this->from(route('tasks.create'))->post(route('tasks.store'), [
+            'description' => 'La date passee doit etre refusee.',
+            'due_date' => now()->subDay()->format('Y-m-d'),
+            'priority' => TaskPriority::Medium->value,
+            'status' => TaskStatus::Todo->value,
+            'title' => 'Verifier validation date',
+        ]);
+
+        $response
+            ->assertRedirect(route('tasks.create'))
+            ->assertSessionHasErrors(['due_date']);
+    }
+
     public function test_user_can_generate_demo_ai_suggestion(): void
     {
         config(['services.ai.provider' => 'demo']);
