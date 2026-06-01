@@ -7,6 +7,7 @@ use App\Enums\TaskStatus;
 use Database\Factories\TaskFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Task extends Model
 {
@@ -35,5 +36,13 @@ class Task extends Model
         return $this->due_date !== null
             && $this->due_date->isPast()
             && $this->status !== TaskStatus::Done;
+    }
+
+    /**
+     * @return HasMany<TaskAiSuggestion, Task>
+     */
+    public function aiSuggestions(): HasMany
+    {
+        return $this->hasMany(TaskAiSuggestion::class);
     }
 }

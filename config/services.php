@@ -18,6 +18,16 @@ return [
         'key' => env('POSTMARK_API_KEY'),
     ],
 
+    'ai' => [
+        'provider' => env('AI_PROVIDER', 'demo'),
+    ],
+
+    'openai' => [
+        'base_url' => env('OPENAI_BASE_URL', 'https://api.openai.com/v1'),
+        'key' => env('OPENAI_API_KEY'),
+        'model' => env('OPENAI_MODEL', 'gpt-5.4-mini'),
+    ],
+
     'resend' => [
         'key' => env('RESEND_API_KEY'),
     ],
