@@ -83,9 +83,7 @@ Le projet contient deja :
 - Branches feature.
 - Pull Requests mergees.
 - Branche hotfix.
-- Commits identifiables pour la partie MVP et IA.
-
-Le teammate peut faire ses propres commits sur Sonar, les preuves avant/apres et la finalisation de release.
+- Commits identifiables pour le MVP, l'IA, le hotfix, les corrections Sonar et la finalisation de release.
 
 ## Qualite
 

@@ -21,9 +21,9 @@ Commits principaux :
 - `wire strategy provider for ai advisor`
 - `fix due date validation`
 
-## Teammate, partie restante mais raisonnable
+## Zakaria, qualite et finalisation
 
-Travail a realiser :
+Travail realise :
 
 - Tests Laravel.
 - Analyse Sonar.
@@ -32,7 +32,7 @@ Travail a realiser :
 - Finalisation des preuves dans README, offre et presentation.
 - Release finale apres validation commune.
 
-Commits recommandes :
+Commits principaux :
 
 - `fix sonar maintainability issues`
 - `add sonar before after notes`
@@ -41,4 +41,4 @@ Commits recommandes :
 
 ## Pourquoi cette repartition est equilibree
 
-Anouar porte environ 75% : partie technique principale, workflow, IA, hotfix, tests et premiers documents. Le teammate porte environ 25% : qualite Sonar, preuves avant/apres et finalisation, ce qui reste assez visible pour la note individuelle sans devoir reconstruire le projet.
+Anouar porte environ 75% : partie technique principale, workflow, IA, hotfix, tests et premiers documents. Zakaria porte environ 25% : qualite Sonar, preuves avant/apres et finalisation, ce qui reste assez visible pour la note individuelle sans devoir reconstruire le projet.

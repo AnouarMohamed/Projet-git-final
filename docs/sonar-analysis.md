@@ -1,10 +1,10 @@
-# Analyse Sonar, plan teammate
+# Analyse Sonar et validation qualite
 
 ## Etat actuel
 
-Le projet contient deja le MVP, l'IA et le Strategy Pattern. La partie Sonar doit etre finalisee par le teammate pour garder une contribution claire.
+Le projet contient le MVP, l'integration IA, le Strategy Pattern et deux corrections de maintenabilite ciblees pour Sonar.
 
-## Baseline a produire
+## Commandes de validation
 
 Commandes :
 
@@ -20,7 +20,7 @@ Sur Fedora, installer si besoin :
 sudo dnf install -y php-pdo php-sqlite3
 ```
 
-## Issues candidates
+## Issues corrigees
 
 ### Issue 1, statistiques dans le controller
 
@@ -28,7 +28,7 @@ Code candidat : `TaskController::stats()`.
 
 Probleme : le controller contient plusieurs requetes de statistiques. C'est lisible pour le MVP, mais perfectible pour la qualite.
 
-Correction conseillee :
+Correction appliquee :
 
 - creer `App\Services\Tasks\TaskStatsCalculator` ;
 - creer un petit DTO `TaskStats` ;
@@ -40,26 +40,27 @@ Code candidat : `OpenAiTaskAdvisor::extractOutputText()`.
 
 Probleme : le provider gere a la fois appel HTTP, schema, parsing de reponse et mapping.
 
-Correction conseillee :
+Correction appliquee :
 
 - creer `OpenAiResponseTextExtractor` ;
 - injecter cette classe dans `OpenAiTaskAdvisor` ;
 - garder le provider centre sur l'appel IA.
 
-## Avant / apres a completer
+## Avant / apres
 
 | Element | Avant | Apres |
 | --- | --- | --- |
 | Stats dashboard | Requetes Eloquent directes dans `TaskController::index` via une methode privee `stats()`. | Logique extraite dans `TaskStatsCalculator` et DTO `TaskStats`. Injection de dependance dans le controller. |
 | Parsing OpenAI | Methode privee complexe `extractOutputText()` dans `OpenAiTaskAdvisor` gerant plusieurs niveaux de JSON. | Logique extraite dans `OpenAiResponseTextExtractor`. Injection de dependance via le Service Provider. |
 
-## Preuves a ajouter
+## Preuves conservees
 
-- Rapport Sonar local finalise avec succes : `ANALYSIS SUCCESSFUL`. Lien : [http://localhost:9000/dashboard?id=AnouarMohamed_ai-task-manager-laravel](http://localhost:9000/dashboard?id=AnouarMohamed_ai-task-manager-laravel)
+- Rapport Sonar local execute avec succes : `ANALYSIS SUCCESSFUL`.
+- Lien local affiche par Sonar pendant l'analyse : `http://host.docker.internal:9000/dashboard?id=AnouarMohamed_ai-task-manager-laravel`.
 - Commits de correction :
   - `refactor: extract task statistics to dedicated service (Sonar fix)`
   - `refactor: extract OpenAI response parsing to dedicated class (Sonar fix)`
-- Resultat `npm run build` : SUCCESS (vu ci-dessus).
+- Resultat `npm run build` : SUCCESS.
 
 ## Validation Finale
 

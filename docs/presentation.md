@@ -40,7 +40,7 @@ Workflow Git :
 - branches `feature/*`
 - branche `hotfix/due-date-validation`
 - Pull Requests mergees sur GitHub
-- tag final a poser apres validation teammate
+- tag final pose apres validation qualite
 
 ## 4. Demo des fonctionnalites, 3 minutes
 
@@ -63,14 +63,14 @@ Design pattern :
 - Interface : `TaskAdvisorInterface`.
 - Strategies : `DemoTaskAdvisor`, `OpenAiTaskAdvisor`.
 
-Refactoring a presenter par le teammate :
+Refactoring qualite :
 
 - Extraire les statistiques du dashboard dans un service.
 - Extraire le parsing de reponse OpenAI dans une classe dediee.
 
 ## 6. Corrections Sonar, 1 minute
 
-Cette partie est reservee au teammate :
+Points a presenter :
 
 - Montrer le rapport baseline.
 - Montrer deux issues.
@@ -87,4 +87,4 @@ Cette partie est reservee au teammate :
 ## Repartition orale conseillee
 
 - Anouar : probleme, solution, architecture, CRUD, IA, Git workflow.
-- Teammate : Sonar, corrections qualite, preuves avant/apres, valeur business.
+- Zakaria : Sonar, corrections qualite, preuves avant/apres, valeur business.

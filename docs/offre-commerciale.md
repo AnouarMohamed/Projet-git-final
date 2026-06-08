@@ -35,8 +35,8 @@ TaskPilot IA centralise les taches dans une application Laravel simple. L'assist
 - Tailwind CSS
 - SQLite
 - Vite
-- PHPUnit, a completer par le teammate
-- SonarCloud, a finaliser par le teammate
+- PHPUnit
+- Sonar
 
 ## 6. Planning simplifie
 
