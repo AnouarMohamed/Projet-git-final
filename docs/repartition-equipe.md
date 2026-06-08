@@ -1,6 +1,6 @@
 # Repartition de l'equipe
 
-## Anouar, partie lourde
+## Anouar
 
 Travail realise :
 
