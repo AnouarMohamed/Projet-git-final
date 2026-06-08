@@ -6,13 +6,14 @@ use App\Enums\TaskPriority;
 use App\Enums\TaskStatus;
 use App\Http\Requests\TaskRequest;
 use App\Models\Task;
+use App\Services\Tasks\TaskStatsCalculator;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    public function index(Request $request, \App\Services\Tasks\TaskStatsCalculator $calculator): View
+    public function index(Request $request, TaskStatsCalculator $calculator): View
     {
         $tasks = Task::query()
             ->when($request->filled('status'), fn ($query) => $query->where('status', $request->string('status')))

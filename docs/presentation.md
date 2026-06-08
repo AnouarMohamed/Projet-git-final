@@ -88,9 +88,3 @@ Cette partie est reservee au teammate :
 
 - Anouar : probleme, solution, architecture, CRUD, IA, Git workflow.
 - Teammate : Sonar, corrections qualite, preuves avant/apres, valeur business.
-
-## TODO teammate
-
-- Ajouter captures PR/Sonar.
-- Ajouter resultats des tests apres installation de `pdo_sqlite`.
-- Completer la partie Sonar avec les vraies corrections.

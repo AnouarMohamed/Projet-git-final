@@ -64,8 +64,3 @@ Simulation pedagogique :
 ## 8. Conclusion
 
 TaskPilot IA donne a une petite equipe un outil clair pour suivre ses taches et preparer une demo professionnelle. L'architecture reste simple, mais extensible grace au Strategy Pattern.
-
-## TODO teammate
-
-- Ajouter les captures Sonar ou le lien du rapport.
-- Ajuster le budget si le professeur demande un format precis.

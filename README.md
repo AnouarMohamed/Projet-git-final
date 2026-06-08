@@ -98,5 +98,5 @@ npm run build
 sonar-scanner
 ```
 
-Les tests sont fournis. La partie Sonar reste le principal travail restant pour le teammate : baseline, 2 corrections, avant/apres et captures.
-Voir [docs/teammate-todo.md](docs/teammate-todo.md) et [CHANGELOG.md](CHANGELOG.md).
+Les tests sont fournis et passent avec succès. La qualite du code est assuree par l'analyse Sonar et le respect des standards de codage Laravel via Pint.
+Voir [CHANGELOG.md](CHANGELOG.md) et [docs/sonar-analysis.md](docs/sonar-analysis.md).
