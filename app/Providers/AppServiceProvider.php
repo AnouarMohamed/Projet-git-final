@@ -21,6 +21,7 @@ class AppServiceProvider extends ServiceProvider
                     apiKey: (string) config('services.openai.key', ''),
                     model: (string) config('services.openai.model', 'gpt-5.4-mini'),
                     baseUrl: (string) config('services.openai.base_url', 'https://api.openai.com/v1'),
+                    extractor: $app->make(\App\Services\TaskAdvisor\OpenAiResponseTextExtractor::class),
                 );
             }
 
