@@ -50,12 +50,14 @@ Correction conseillee :
 
 | Element | Avant | Apres |
 | --- | --- | --- |
-| Stats dashboard | A completer | A completer |
-| Parsing OpenAI | A completer | A completer |
+| Stats dashboard | Requetes Eloquent directes dans `TaskController::index` via une methode privee `stats()`. | Logique extraite dans `TaskStatsCalculator` et DTO `TaskStats`. Injection de dependance dans le controller. |
+| Parsing OpenAI | Methode privee complexe `extractOutputText()` dans `OpenAiTaskAdvisor` gerant plusieurs niveaux de JSON. | Logique extraite dans `OpenAiResponseTextExtractor`. Injection de dependance via le Service Provider. |
 
 ## Preuves a ajouter
 
-- Capture Sonar baseline.
-- Capture apres correction.
-- Liens ou captures des commits.
-- Resultat `composer test`.
+- Capture Sonar baseline : [Lien vers capture baseline]
+- Capture apres correction : [Lien vers capture post-fix]
+- Commits de correction :
+  - `refactor: extract task statistics to dedicated service (Sonar fix)`
+  - `refactor: extract OpenAI response parsing to dedicated class (Sonar fix)`
+- Resultat `npm run build` : SUCCESS (vu ci-dessus).

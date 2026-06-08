@@ -99,4 +99,4 @@ sonar-scanner
 ```
 
 Les tests sont fournis. La partie Sonar reste le principal travail restant pour le teammate : baseline, 2 corrections, avant/apres et captures.
-Voir [docs/teammate-todo.md](docs/teammate-todo.md).
+Voir [docs/teammate-todo.md](docs/teammate-todo.md) et [CHANGELOG.md](CHANGELOG.md).
