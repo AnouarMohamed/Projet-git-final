@@ -1,0 +1,25 @@
+services:
+  app:
+    build: { context: ., dockerfile: Dockerfile, target: production }
+    image: taskpilot-app-prod
+    container_name: taskpilot-app-prod
+    restart: always
+    environment: { APP_ENV: production, APP_DEBUG: "false" }
+    networks: [ taskpilot-network ]
+  nginx:
+    image: nginx:alpine
+    container_name: taskpilot-nginx-prod
+    restart: always
+    ports: [ "80:80" ]
+    volumes: [ "./.docker/nginx/default.conf:/etc/nginx/conf.d/default.conf" ]
+    depends_on: [ app ]
+    networks: [ taskpilot-network ]
+  mysql:
+    image: mysql:8.0
+    container_name: taskpilot-mysql-prod
+    restart: always
+    environment: { MYSQL_DATABASE: taskpilot, MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}", MYSQL_USER: taskpilot, MYSQL_PASSWORD: "${DB_PASSWORD}" }
+    volumes: [ "taskpilot-db-prod:/var/lib/mysql" ]
+    networks: [ taskpilot-network ]
+networks: { taskpilot-network: { driver: bridge } }
+volumes: { taskpilot-db-prod: { driver: local } }
