@@ -6,6 +6,18 @@ use App\Enums\TaskPriority;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int $id
+ * @property int $task_id
+ * @property string $summary
+ * @property TaskPriority $suggested_priority
+ * @property array $subtasks
+ * @property array $risks
+ * @property int $estimated_minutes
+ * @property string $provider
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ */
 class TaskAiSuggestion extends Model
 {
     protected $fillable = [
