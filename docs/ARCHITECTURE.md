@@ -1,70 +1,97 @@
-# Docker Management for TaskPilot IA
+# System Architecture: TaskPilot IA
 
-TaskPilot IA is containerized using Docker to ensure environment consistency across development and production.
+TaskPilot IA is engineered as a robust, scalable, and maintainable task management platform. This document details the architectural decisions, design patterns, and data flow that define the system.
 
-## Docker Composition
+---
 
-The project includes a multi-container setup managed by Docker Compose:
+## 1. High-Level Architecture
 
-*   **App Container**: Runs PHP 8.3-FPM with all necessary extensions for Laravel.
-*   **Web Container**: Uses Nginx to serve the application and manage static assets.
-*   **Build Tools**: Integration with Node.js and NPM for compiling frontend assets via Vite.
+The system follows a classic **N-Tier Architecture** implemented within the Laravel framework, emphasizing separation of concerns and modularity.
 
-## Environment Configuration
+```mermaid
+graph TD
+    subgraph Client_Layer
+        Browser[Web Browser / Blade Templates]
+    end
 
-The Docker setup relies on environment variables defined in the `.env` file. Key variables for the containerized environment include:
+    subgraph Presentation_Layer
+        Controller[Task & AI Controllers]
+        Request[Validation Logic / Form Requests]
+    end
 
-*   `DB_CONNECTION=sqlite`
-*   `DB_DATABASE=/var/www/html/database/database.sqlite`
+    subgraph Application_Service_Layer
+        StatsService[TaskStatsCalculator]
+        AIService[TaskAdvisor Service Container]
+    end
 
-## Development Workflow
+    subgraph Domain_Layer
+        Models[Eloquent Models: Task, AI Suggestion]
+        Strategy[TaskAdvisor Strategy Pattern]
+    end
 
-To start the development environment:
+    subgraph Data_Source_Layer
+        DB[(SQLite / Database)]
+        OpenAI[External API: OpenAI]
+    end
 
-1.  Build the images:
-    ```bash
-    docker-compose build
-    ```
-2.  Start the containers:
-    ```bash
-    docker-compose up -d
-    ```
-3.  Install dependencies within the container:
-    ```bash
-    docker-compose exec app composer install
-    docker-compose exec app npm install
-    docker-compose exec app npm run build
-    ```
+    Browser <--> Controller
+    Controller --> Request
+    Controller --> StatsService
+    Controller --> AIService
+    AIService --> Strategy
+    Strategy --> OpenAI
+    Strategy --> Models
+    Models <--> DB
+```
 
-## Production Considerations
+---
 
-For production deployments, the `Dockerfile` utilizes a multi-stage build process:
+## 2. The Strategy Design Pattern
 
-1.  **Dependencies Stage**: Installs composer and npm dependencies.
-2.  **Asset Stage**: Compiles frontend assets.
-3.  **Final Image**: A lean production-ready image containing only the necessary PHP extensions, the application code, and compiled assets.
+To achieve high decoupling between the application logic and external AI providers, we implement the **Strategy Pattern**. This allows the system to remain agnostic of the underlying AI engine.
 
-The `docker-compose.prod.yml` file is optimized for performance, including opcache configurations and disabled debugging tools.
+### Implementation Details
+The architecture relies on the following components:
 
-## Common Commands
+*   **Contract (`TaskAdvisorInterface`)**: Defines the mandatory `suggest()` method.
+*   **Concrete Strategies**:
+    *   `OpenAiTaskAdvisor`: Handles real-time API communication, prompt engineering, and response extraction.
+    *   `DemoTaskAdvisor`: Provides deterministic, high-speed responses for development and CI/CD environments.
+*   **Dynamic Binding**: The `AppServiceProvider` performs a contextual binding at runtime based on the `AI_PROVIDER` environment variable.
 
-A `Makefile` is provided to simplify common Docker operations:
+### Dependency Inversion
+The `TaskAiSuggestionController` never instantiates an advisor directly. Instead, it type-hints the `TaskAdvisorInterface`, allowing the Service Container to inject the appropriate implementation. This makes the system easily testable via mock injection.
 
-*   `make up`: Start containers.
-*   `make down`: Stop containers.
-*   `make shell`: Open a terminal inside the application container.
-*   `make test`: Run PHPUnit tests inside the container.
+---
 
-*   **TaskStatsCalculator**: Encapsulates the logic for calculating task statistics shown on the dashboard.
-*   **OpenAiResponseTextExtractor**: Handles the complexities of parsing JSON or text responses from the AI, ensuring the advisor classes remain focused on their primary role.
+## 3. Data Flow and Persistence
 
-## Database Schema
+### AI Suggestion Lifecycle
+1.  **Request**: User triggers a "Get Suggestion" action for a specific `Task`.
+2.  **Resolution**: The Controller requests an implementation of `TaskAdvisorInterface`.
+3.  **Execution**: The resolved strategy (e.g., OpenAI) processes the task data.
+4.  **Parsing**: The `OpenAiResponseTextExtractor` sanitizes and structures the raw API response.
+5.  **Caching**: The resulting `TaskSuggestionData` is persisted in the `task_ai_suggestions` table, linked to the `Task`.
+6.  **Response**: The UI displays the suggestion from the database, ensuring subsequent views do not trigger expensive API calls.
 
-The application uses SQLite for simplicity and portability in the MVP phase.
-*   **tasks**: Stores task details, priority, status, and deadlines.
-*   **task_ai_suggestions**: Stores the cached AI suggestions linked to each task, preventing redundant API calls.
+---
 
-## Error Handling and Validation
+## 4. Service Layer and Refactoring
 
-*   **Custom Requests**: `TaskRequest` handles complex validation logic, such as the hotfix that prevents setting deadlines in the past.
-*   **Logging**: Standard Laravel logging is used to track AI communication errors and system exceptions.
+We adhere to the **Single Responsibility Principle (SRP)** by offloading complex logic from Controllers into dedicated Services:
+
+*   **`TaskStatsCalculator`**: Aggregates complex metrics (Completion rates, Priority distribution) for the dashboard.
+*   **`OpenAiResponseTextExtractor`**: Encapsulates the logic for parsing semi-structured AI responses, protecting the advisor from changes in API response formats.
+
+---
+
+## 5. Quality and Reliability Standards
+
+*   **Validation Layer**: Form Requests handle all input sanitization, including a critical hotfix for preventing retrospective deadline assignments.
+*   **Observability**: Integrated logging captures API latencies and communication failures, facilitating rapid debugging in production.
+*   **Static Analysis**: The project is continuously audited by **SonarCloud**, maintaining a strict baseline for code complexity and maintainability.
+
+---
+
+*Document Version: 1.1*
+*Last Updated: June 2026*
