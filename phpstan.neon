@@ -1,0 +1,16 @@
+parameters:
+    paths:
+        - app/
+
+    # Level 9 is the highest level
+    level: 5
+
+    ignoreErrors:
+        # Ignore common Laravel dynamic property access if PHPDoc is missing
+        - '#Access to an undefined property .*Model::.*#'
+        - '#Call to an undefined method .*Model::.*#'
+
+    excludePaths:
+        # - ./*/*/FileToBeExcluded.php
+
+    checkMissingIterableValueType: false
