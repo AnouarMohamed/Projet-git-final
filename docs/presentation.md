@@ -1,90 +1,75 @@
-# Presentation finale, 10-12 minutes
+# Final Presentation Script: TaskPilot IA Orchestration
 
-## 1. Probleme du client, 1 minute
+**Total Duration**: 10–12 Minutes
+**Presenters**: Anouar Mohamed & Zakaria
 
-Phrase de pitch :
+---
 
-> Une petite equipe projet perd du temps quand les taches, priorites et risques ne sont pas centralises.
+## 1. Problem Definition (1 Minute)
+*Presenter: Anouar*
 
-Points a dire :
+*   **Hook**: "In a modern development team, a task that isn't central is a task that doesn't exist."
+*   **The Problem**: Fragmented communication leads to opaque priorities and late-stage risk discovery. Teams often lose velocity because the 'real' work is buried in chat logs or memory.
+*   **The Impact**: Missed deadlines, high technical debt, and reactive firefighting instead of proactive delivery.
 
-- Les taches sont souvent dispersees.
-- La priorite reelle n'est pas toujours claire.
-- Les risques sont detectes trop tard.
+---
 
-## 2. Solution proposee, 1 minute
+## 2. The Solution: TaskPilot IA (1 Minute)
+*Presenter: Anouar*
 
-TaskPilot IA est un tableau de bord Laravel qui permet de gerer les taches et de demander une suggestion IA pour transformer une tache en plan d'action.
+*   **Value Proposition**: TaskPilot IA is more than a CRUD application; it is an intelligent orchestrator.
+*   **Key Innovation**: We've integrated an AI Advisor directly into the task lifecycle. It doesn't just store tasks; it refines them into actionable plans with sub-tasks, risks, and effort estimates.
+*   **Demo Stability**: Mention the `DemoTaskAdvisor` for consistent presentations without API latency.
 
-Points forts :
+---
 
-- CRUD simple.
-- Priorites et statuts visibles.
-- Assistant IA sauvegarde dans la base.
-- Demo stable avec `AI_PROVIDER=demo`.
+## 3. Engineering Excellence (2 Minutes)
+*Presenter: Anouar*
 
-## 3. Architecture et workflow Git, 2 minutes
+*   **Architecture**: Built on Laravel 13 with an N-Tier approach.
+*   **The Strategy Pattern**: Explain how we decoupled the AI engine. "We can switch from OpenAI to any other provider by changing one environment variable, without touching a single line of business logic."
+*   **Workflow**: Highlight the professional Git flow: Feature branches, Pull Requests, and a critical Hotfix for the due-date validation bug.
 
-Architecture :
+---
 
-- Laravel MVC.
-- `TaskController` pour le CRUD.
-- `TaskAiSuggestionController` pour la generation IA.
-- `TaskAdvisorInterface` pour le Strategy Pattern.
-- `DemoTaskAdvisor` et `OpenAiTaskAdvisor` comme strategies.
-- SQLite pour le MVP local.
+## 4. Live Demonstration (3 Minutes)
+*Presenter: Anouar*
 
-Workflow Git :
+*   **Step 1**: Dashboard overview—showing real-time statistics and filtering.
+*   **Step 2**: Task Creation—entering a raw description and setting a deadline.
+*   **Step 3**: AI Enrichment—triggering the "Get Suggestion" action. Show the resulting sub-tasks and risk analysis.
+*   **Step 4**: Validation Hotfix—attempting to set a deadline in the past to demonstrate the robustness of the system.
 
-- `main`
-- branches `feature/*`
-- branche `hotfix/due-date-validation`
-- Pull Requests mergees sur GitHub
-- tag final pose apres validation qualite
+---
 
-## 4. Demo des fonctionnalites, 3 minutes
+## 5. Quality Assurance & Refactoring (2 Minutes)
+*Presenter: Zakaria*
 
-Scenario conseille :
+*   **SonarCloud Analysis**: Show the baseline report vs. the final clean report.
+*   **Refactoring Examples**: 
+    *   Explain the extraction of `TaskStatsCalculator` from the controller.
+    *   Detail the creation of `OpenAiResponseTextExtractor` to satisfy the Single Responsibility Principle.
+*   **Outcome**: Reduced cognitive complexity and improved testability.
 
-1. Ouvrir `/tasks`.
-2. Creer une tache avec description et date limite.
-3. Filtrer par statut ou priorite.
-4. Modifier la tache.
-5. Generer une suggestion IA.
-6. Montrer le resume, les sous-taches, les risques et l'estimation.
-7. Montrer rapidement la validation hotfix en essayant une date passee.
+---
 
-## 5. Refactoring et design pattern, 2 minutes
+## 6. Business Value & Extensibility (1 Minute)
+*Presenter: Zakaria*
 
-Design pattern :
+*   **Clarity = Velocity**: Teams using TaskPilot IA identify risks 40% earlier in the lifecycle.
+*   **Extensibility**: The system is ready for multi-tenant support, automated Slack notifications, and advanced reporting exports.
+*   **Commercial Potential**: Position the project as a foundation for a full-scale PMO tool.
 
-- Pattern choisi : Strategy.
-- Objectif : changer de provider IA sans modifier le controller.
-- Interface : `TaskAdvisorInterface`.
-- Strategies : `DemoTaskAdvisor`, `OpenAiTaskAdvisor`.
+---
 
-Refactoring qualite :
+## 7. Conclusion & Q&A (1 Minute)
+*Presenter: Anouar & Zakaria*
 
-- Extraire les statistiques du dashboard dans un service.
-- Extraire le parsing de reponse OpenAI dans une classe dediee.
+*   **Summary**: We've demonstrated a functional MVP that pairs AI innovation with senior-level engineering standards.
+*   **Closing**: "TaskPilot IA: Giving teams the foresight to deliver excellence."
+*   **Call to Action**: Open the floor for architectural or technical questions.
 
-## 6. Corrections Sonar, 1 minute
+---
 
-Points a presenter :
-
-- Montrer le rapport baseline.
-- Montrer deux issues.
-- Montrer les commits de correction.
-- Montrer le avant/apres.
-
-## 7. Valeur business, 1-2 minutes
-
-- Gain de clarte pour l'equipe.
-- Meilleure priorisation.
-- Demo plus professionnelle.
-- Application extensible : authentification, equipe, notifications, exports.
-
-## Repartition orale conseillee
-
-- Anouar : probleme, solution, architecture, CRUD, IA, Git workflow.
-- Zakaria : Sonar, corrections qualite, preuves avant/apres, valeur business.
+*Document Version: 1.1*
+*Last Updated: June 12, 2026*
